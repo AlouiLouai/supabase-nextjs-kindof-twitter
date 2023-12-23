@@ -12,50 +12,42 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string
-          id: string
           name: string
+          sub: string
           username: string
         }
         Insert: {
           avatar_url: string
-          id: string
           name: string
+          sub: string
           username: string
         }
         Update: {
           avatar_url?: string
-          id?: string
           name?: string
+          sub?: string
           username?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       tweets: {
         Row: {
           created_at: string
           id: string
           title: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: string
           title: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: string
           title?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -63,7 +55,7 @@ export interface Database {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            referencedColumns: ["sub"]
           }
         ]
       }

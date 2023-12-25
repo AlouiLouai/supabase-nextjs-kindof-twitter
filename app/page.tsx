@@ -3,6 +3,8 @@ import { cookies } from 'next/headers'
 import AuthButtonServer from './auth-button-server';
 import { redirect } from 'next/navigation';
 import { insertOrUpdateProfile } from './utils/insert-profile';
+import NewTweet from './new-tweet';
+import Tweets from './tweet/page';
 
 export default async function Home() {
 
@@ -15,19 +17,13 @@ export default async function Home() {
   if (!session) {
     redirect("/login");
   }
-
-  const { data: tweets } = await supabase
-    .from('tweets')
-    .select("*, profiles(*)");
-
   insertOrUpdateProfile(supabase);
 
   return (
     <>
       <AuthButtonServer />
-      <pre>
-        {JSON.stringify(tweets, null, 2)}
-      </pre>
+      <NewTweet />
+      <Tweets />
     </>
   )
 }

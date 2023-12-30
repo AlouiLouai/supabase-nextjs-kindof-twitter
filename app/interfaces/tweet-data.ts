@@ -3,10 +3,10 @@ interface TweetData {
     created_at: string;
     title: string;
     user_id: string | null;
-    profiles: {
+    profiless: {
       avatar_url: string;
       name: string;
-      sub: string;
+      id: string;
       username: string;
     } | null;
   }

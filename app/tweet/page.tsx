@@ -10,7 +10,7 @@ export default function Tweets() {
     async function fetchTweets() {
       try {
         const supabase = createClientComponentClient<Database>();
-        const data = await supabase.from('tweets').select('*, profiles(*)');
+        const data = await supabase.from('tweets').select('*, profiless(*)');
         if (data) {
           setTweets(data);
         }
@@ -24,17 +24,7 @@ export default function Tweets() {
 
   return (
     <div>
-      {tweets?.data?.map((tweet) => (
-        <div key={tweet.id}>
-          {/* Display your tweet data here */}
-          <p>{tweet.title}</p>
-          <p>{tweet.created_at}</p>
-          <p>{tweet.profiles?.name}</p>
-          <p>{tweet.profiles?.username}</p>
-          <p>{tweet.profiles?.avatar_url}</p>
-          <p>------------------</p>
-        </div>
-      ))}
+      <pre>{JSON.stringify(tweets?.data, null, 2)}</pre>
     </div>
   );
 }

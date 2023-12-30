@@ -9,23 +9,23 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      profiles: {
+      profiless: {
         Row: {
           avatar_url: string
+          id: string
           name: string
-          sub: string
           username: string
         }
         Insert: {
           avatar_url: string
+          id?: string
           name: string
-          sub: string
           username: string
         }
         Update: {
           avatar_url?: string
+          id?: string
           name?: string
-          sub?: string
           username?: string
         }
         Relationships: []
@@ -35,27 +35,27 @@ export interface Database {
           created_at: string
           id: string
           title: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           title: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           title?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "tweets_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["sub"]
+            referencedRelation: "profiless"
+            referencedColumns: ["id"]
           }
         ]
       }

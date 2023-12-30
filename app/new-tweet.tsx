@@ -6,11 +6,24 @@ export default function NewTweet() {
         "use server";
         const title = String(formData.get("title"));
         const supabase = createServerActionClient<Database>({ cookies });
-        const {
-            data: { user },
-        } = await supabase.auth.getUser();
-        if (user) {
-            await supabase.from("tweets").insert({ title: title, user_id: user.user_metadata?.id });
+        try {
+            const {
+                data: { user },
+            } = await supabase.auth.getUser();
+            if (user) {
+                const { data: profileData } = await supabase
+                    .from('profiless')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                if (profileData) {
+                    const profileId = profileData.id
+                    return await supabase.from("tweets").insert({ title: title, user_id: profileId });
+                }
+            }
+        } catch (error) {
+            throw new Error(`${error}`)
         }
     };
 

@@ -2,9 +2,10 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import AuthButtonServer from './auth-button-server';
 import { redirect } from 'next/navigation';
-import { insertOrUpdateProfile } from './utils/insert-profile';
+import { insertOrUpdateProfileMiddleware } from './utils/insert-profile';
 import NewTweet from './new-tweet';
 import Tweets from './tweet/page';
+import createProfile from './utils/insert-profiles';
 
 export default async function Home() {
 
@@ -17,7 +18,7 @@ export default async function Home() {
   if (!session) {
     redirect("/login");
   }
-  insertOrUpdateProfile(supabase);
+  createProfile(supabase);
 
   return (
     <>

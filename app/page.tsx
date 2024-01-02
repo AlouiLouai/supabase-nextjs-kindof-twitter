@@ -21,7 +21,7 @@ export default async function Home() {
     <>
       <AuthButtonServer />
       <NewTweet />
-      <Tweets />
+      <Tweets session={session} />
     </>
   )
 }

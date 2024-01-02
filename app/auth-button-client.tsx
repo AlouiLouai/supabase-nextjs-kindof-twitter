@@ -4,6 +4,7 @@ import {
     Session,
     createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
+import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
 export default function AuthButtonClient({
@@ -16,6 +17,8 @@ export default function AuthButtonClient({
 
     const handleSignOut = async () => {
         await supabase.auth.signOut();
+        // Remove the session cookie upon logout
+        deleteCookie("sb:glhesrjbuishlmqiuayo-auth-token"); // Replace "sb:token" with your Supabase cookie name
         router.refresh();
     };
 

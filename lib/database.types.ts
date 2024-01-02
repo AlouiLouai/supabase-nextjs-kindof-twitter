@@ -9,23 +9,63 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      profiiles: {
+        Row: {
+          avatar_url: string
+          id: string
+          name: string
+          username: string
+        }
+        Insert: {
+          avatar_url: string
+          id: string
+          name: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string
+          id?: string
+          name?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiiles_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       tweets: {
         Row: {
           created_at: string
           id: string
           title: string
+          user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           title: string
+          user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           title?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tweets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiiles"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

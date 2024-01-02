@@ -3,7 +3,7 @@ interface TweetData {
     created_at: string;
     title: string;
     user_id: string | null;
-    profiless: {
+    profiiles: {
       avatar_url: string;
       name: string;
       id: string;

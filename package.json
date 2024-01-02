@@ -15,6 +15,7 @@
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",
+    "supabase": "^1.127.4",
     "tailwindcss": "^3.4.0"
   },
   "devDependencies": {

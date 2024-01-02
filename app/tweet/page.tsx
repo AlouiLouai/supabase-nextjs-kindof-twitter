@@ -10,7 +10,7 @@ export default function Tweets() {
     async function fetchTweets() {
       try {
         const supabase = createClientComponentClient<Database>();
-        const data = await supabase.from('tweets').select('*, profiless(*)');
+        const data = await supabase.from('tweets').select('*, profiiles(*)');
         if (data) {
           setTweets(data);
         }

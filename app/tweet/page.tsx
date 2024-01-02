@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Session } from "@supabase/supabase-js";
 import Likes from "../likes/page";
+import { useRouter } from "next/navigation";
 
 interface TweetsProps {
   session: Session;
@@ -10,7 +11,28 @@ interface TweetsProps {
 
 export default function Tweets({ session }: TweetsProps) {
   const [tweets, setTweets] = useState<TweetWithAuthor[]>();
+  const supabase = createClientComponentClient();
+  const router = useRouter();
+  useEffect(() => {
+    const channel = supabase
+      .channel("realtime tweets")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "tweets",
+        },
+        (payload) => {
+          router.refresh();
+        }
+      )
+      .subscribe();
 
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase, router]);
   useEffect(() => {
     async function fetchTweets() {
       try {

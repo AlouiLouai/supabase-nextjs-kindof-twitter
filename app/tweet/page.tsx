@@ -24,7 +24,14 @@ export default function Tweets() {
 
   return (
     <div>
-      <pre>{JSON.stringify(tweets?.data, null, 2)}</pre>
+      {tweets?.data?.map((tweet) => (
+        <div key={tweet.id}>
+          <p>
+            {tweet?.profiiles?.name} {tweet?.profiiles?.username}
+          </p>
+          <p>{tweet.title}</p>
+        </div>
+      ))}
     </div>
   );
 }

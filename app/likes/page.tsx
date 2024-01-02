@@ -3,11 +3,8 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 
-interface LikesProps {
-    tweet: TweetData
-}
 
-export default function Likes({ tweet }: LikesProps) {
+export default function Likes({ tweet }: { tweet: TweetWithAuthor }) {
 
     const router = useRouter();
     const handleLikes = async () => {
@@ -29,5 +26,5 @@ export default function Likes({ tweet }: LikesProps) {
             router.refresh();
         }
     };
-    return <button onClick={handleLikes}>{tweet.likesnumber} Likes</button>;
+    return <button onClick={handleLikes}>{tweet.likes.length} Likes</button>;
 }

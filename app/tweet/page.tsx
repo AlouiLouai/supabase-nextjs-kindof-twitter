@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { PostgrestSingleResponse, Session } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import Likes from "../likes/page";
 
 interface TweetsProps {
@@ -9,21 +9,22 @@ interface TweetsProps {
 }
 
 export default function Tweets({ session }: TweetsProps) {
-  const [tweets, setTweets] = useState<TweetData[]>();
+  const [tweets, setTweets] = useState<TweetWithAuthor[]>();
 
   useEffect(() => {
     async function fetchTweets() {
       try {
         const supabase = createClientComponentClient<Database>();
-        const data = await supabase.from('tweets').select('*, profiiles(*), likes(*)');
+        const data = await supabase.from('tweets').select('*, author: profiiles(*), likes(user_id)');
         if (data) {
-            const result = data?.data?.map((tweet) => ({
-              ...tweet,
-              user_has_liked_tweet: !!tweet.likes.find(
-                (like) => like.user_id === session.user.id
-              ),
-              likesnumber: tweet.likes.length,
-            })) ?? [];
+          const result = data?.data?.map((tweet) => ({
+            ...tweet,
+            author: Array.isArray(tweet.author) ? tweet.author[0] : tweet.author,
+            user_has_liked_tweet: !!tweet.likes.find(
+              (like) => like.user_id === session.user.id
+            ),
+            likesnumber: tweet.likes.length,
+          })) ?? [];
           setTweets(result);
         }
       } catch (error) {
@@ -39,7 +40,7 @@ export default function Tweets({ session }: TweetsProps) {
       {tweets?.map((tweet) => (
         <div key={tweet.id}>
           <p>
-            {tweet?.profiiles?.name} {tweet?.profiiles?.username}
+            {tweet?.author?.name} {tweet?.author?.username}
           </p>
           <p>{tweet.title}</p>
           <Likes tweet={tweet} />
